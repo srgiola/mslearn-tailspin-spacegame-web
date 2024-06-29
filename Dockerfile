@@ -1,4 +1,3 @@
-# Usa la imagen oficial de .NET SDK como base
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 
 # Crea un usuario no root
@@ -10,11 +9,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     zip \
     unzip \
+    python3 \
+    python3-pip \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Instala Node.js versión 18
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
+
+# Instala gulp globalmente
+RUN npm install -g gulp-cli
 
 # Descarga e instala el agente de Azure DevOps
 RUN mkdir /azdo && cd /azdo && \
